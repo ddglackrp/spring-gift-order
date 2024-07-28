@@ -54,8 +54,8 @@ public class FilterConfiguration {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LoginFilter(tokenRepository));
         filterRegistrationBean.setOrder(4);
-        filterRegistrationBean.addUrlPatterns("/members/login");
-        filterRegistrationBean.addUrlPatterns("/members/login/oauth/kakao");
+        filterRegistrationBean.addUrlPatterns("/api/members/login");
+        filterRegistrationBean.addUrlPatterns("/api/members/login/oauth/kakao");
 
         return filterRegistrationBean;
     }
