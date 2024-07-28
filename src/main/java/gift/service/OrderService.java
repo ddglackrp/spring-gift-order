@@ -8,10 +8,14 @@ import gift.repository.member.MemberRepository;
 import gift.repository.option.OptionRepository;
 import gift.repository.order.OrderRepository;
 import gift.repository.wish.WishRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static gift.exception.exceptionMessage.ExceptionMessage.MEMBER_NOT_FOUND;
 import static gift.exception.exceptionMessage.ExceptionMessage.OPTION_NOT_FOUND;
@@ -68,5 +72,16 @@ public class OrderService {
         }
 
         return orderResponseDto;
+    }
+
+    public List<OrderResponseDto> findOrdersUsingPaging(Pageable pageable, String email){
+        Member findMember = memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException(MEMBER_NOT_FOUND));
+
+        Page<Order> findOrders = orderRepository.findAllByMemberId(pageable, findMember.getId());
+
+        return findOrders.stream()
+                .map(OrderResponseDto::from)
+                .collect(Collectors.toList());
     }
 }
