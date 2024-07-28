@@ -1,5 +1,6 @@
 package gift.domain;
 
+import gift.dto.request.OptionRequestDto;
 import gift.exception.customException.OptionQuantityNotMinusException;
 import jakarta.persistence.*;
 
@@ -47,6 +48,11 @@ public class Option {
     public void addProduct(Product product){
         this.product = product;
         product.getOptions().add(this);
+    }
+
+    public void update(OptionRequestDto optionRequestDto){
+        this.name = optionRequestDto.optionName();
+        this.quantity = optionRequestDto.optionQuantity();
     }
 
     public void updateQuantity(int quantity){
